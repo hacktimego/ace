@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/hacktimego/ace/issues"
   },
-  "homepage": "https://github.com/hacktimego/ace#readme"
+  "homepage": "https://github.com/hacktimego/ace#readme",
+  "dependencies": {
+    "image-size": "^0.6.0"
+  }
 }
