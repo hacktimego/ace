@@ -2,23 +2,30 @@ const url = require('url')
 const fs = require('fs')
 const path = require('path')
 
-const dirs = fs.readdirSync(path.join(__dirname, 'video')).filter(dir => {
-  const filename = path.resolve(__dirname, 'video', dir)
+const m = 'video/20 vids for Xfun'
+
+const dirs = fs.readdirSync(path.resolve(__dirname, m)).filter(dir => {
+  const filename = path.resolve(__dirname, m, dir)
   const stats = fs.lstatSync(filename)
   return stats.isDirectory()
 })
 
-console.log(dirs)
-for (const dir of dirs) {
-  const filenames = fs.readdirSync(path.resolve(__dirname, 'video', dir))
-  
-  const obj = {}
-  obj.msg = 'it works'
-  obj.s = filenames.map(filename => {
-    const urlStr = url.resolve('https://raw.githubusercontent.com/hacktimego/ace/master/', `music/${dir}/${filename}`)
-    return { image: [urlStr], name: filename }
-  })
+const filenames = dirs.map(di => {
+    const d = path.resolve(__dirname, m, di)
+    const mp4 = fs.readdirSync(d).filter(x => x.indexOf('.mp4') !== -1)[0]
+    const png = fs.readdirSync(d).filter(x => x.indexOf('.png') !== -1)[0]
+    return {
+      cover: url.resolve('https://raw.githubusercontent.com/hacktimego/ace/master/', `${m}/${di}/${png}`),
+      desc: mp4,
+      url: url.resolve('https://media.githubusercontent.com/media/hacktimego/ace/master/', `${m}/${di}/${mp4}`)
+    }
+})
+ 
+const obj = {}
+obj.msg = 'it works'
+obj.s = filenames
 
-  fs.writeFileSync(path.resolve(__dirname, 'video', `${dir}.json`), JSON.stringify(obj))
-}
+console.log(JSON.stringify(obj, null, 2))
+fs.writeFileSync(path.resolve(__dirname,`${m}.json`), JSON.stringify(obj))
+
 
