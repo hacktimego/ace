@@ -2,7 +2,7 @@ const url = require('url')
 const fs = require('fs')
 const path = require('path')
 
-const m = 'video/20 vids for Xfun'
+const m = 'video/20 vids for Xfun2'
 
 const dirs = fs.readdirSync(path.resolve(__dirname, m)).filter(dir => {
   const filename = path.resolve(__dirname, m, dir)
